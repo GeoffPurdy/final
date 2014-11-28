@@ -14,6 +14,8 @@ require "rails/test_unit/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+# config.neo4j.session_type = :server_db
+# config.neo4j.session_path = ENV["GRAPHENEDB_URL"] || 'http://localhost:7474'
 
 module Final
   class Application < Rails::Application
