@@ -1,0 +1,35 @@
+START n=node(*), m=node(*)  
+where has(n.userid) and has(m.userid) and n.userid='0' and m.userid='3'  
+create (n)-[FRIENDSHIP {status:2}]->(m) ;
+
+WITH ["Andres","Wes","Rik","Mark","Peter","Kenny","Michael","Stefan","Max","Chris"] AS names
+FOREACH (r IN range(0,100000) | CREATE (:User {id:r, name:names[r % size(names)]+" "+r}));
+
+WITH ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'] 
+AS alphabet
+FOREACH (first IN range(0,25) | 
+START n=node(*), m=node(*) where n.name =~ (first + '.') and m.name =~ '.' 
+and NOT (n.name = m.name) create (n)-[:single_letter_change]->(m)
+
+match (w:Word)
+where length(w.name) = 3
+with range(0,length(w.name)-1) as w_len, w
+unwind w_len as idx
+with "(?i)" + left(w.name,idx) + '.' + right(w.name,length(w.name)-idx-1) as pattern, w, w_len
+match (new_word:Word)
+where not (new_word = w) 
+and not((new_word)-[:LIKE]-(w))
+and length(new_word.name) = length(w_len)
+and new_word.name =~ pattern
+create (new_word)-[:LIKE]->(w)
+return new_word, w
+
+match (w:Word)                                                                  
+ where length(w.name) = 5                                                        
+  with range(0,length(w.name)-1) as w_len, w                                      
+   unwind w_len as idx                                                             
+    with "(?i)" + left(w.name,idx) + '.' + right(w.name,length(w.name)-idx-1) as pattern, w, w_len
+     match (new_word:Word)
+
+
+MATCH p=ALLSHORTESTPATHS( (a {name:'did'})--(b {name:'kid'}) ) RETURN p ORDER BY LENGTH(p) DESC LIMIT 10
