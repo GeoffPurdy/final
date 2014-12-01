@@ -14,10 +14,7 @@ require "rails/test_unit/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-# although specified in the setup instructions the following
-# # line may be unnecessary see https://github.com/neo4jrb/neo4j-core/issues/128
-# config.neo4j.session_type = :server_db
-config.neo4j.session_path = ENV["GRAPHENEDB_URL"] || 'http://localhost:7474'
+
 
 module Final
   class Application < Rails::Application
@@ -25,6 +22,11 @@ module Final
     config.generators do |g|
       g.orm             :neo4j
     end
+
+    # although specified in the setup instructions the following
+    # # line may be unnecessary see https://github.com/neo4jrb/neo4j-core/issues/128
+    config.neo4j.session_type = :server_db
+    config.neo4j.session_path = ENV["GRAPHENEDB_URL"] || 'http://localhost:7474'
 
     # Configure where the embedded neo4j database should exist
     # Notice embedded db is only available for JRuby
