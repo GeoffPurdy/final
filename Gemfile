@@ -38,4 +38,4 @@ gem 'spring',        group: :development
 
 
 gem "neo4j", "~> 3.0.0"
-gem 'neography'
+gem 'neo4j-cypher'

@@ -1,5 +1,5 @@
 class WordsController < ApplicationController
-  before_action :set_word, only: [:show, :edit, :update, :destroy]
+  before_action :set_word, only: [:show, :edit, :update, :destroy, :get_path]
 
   # GET /words
   # GET /words.json
@@ -61,6 +61,16 @@ class WordsController < ApplicationController
     end
   end
 
+  def get_path
+    if @word.update(word_params)
+      format.html { redirect_to @word, notice: 'Word was successfully updated.' }
+      format.json { render :show, status: :ok, location: @word }
+    else
+      format.html { render :edit }
+      format.json { render json: @word.errors, status: :unprocessable_entity }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_word
@@ -70,6 +80,6 @@ class WordsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def word_params
       # params.require(:word).permit(:name)
-      params.permit(:name, :word)
+      params.permit(:name, :word, :target)
     end
 end
