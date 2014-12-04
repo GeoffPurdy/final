@@ -1,5 +1,5 @@
 class WordsController < ApplicationController
-  before_action :set_word, only: [:show, :edit, :update, :destroy, :get_path]
+  before_action :set_word, only: [:show, :edit, :update, :destroy]
 
   # GET /words
   # GET /words.json
@@ -62,19 +62,13 @@ class WordsController < ApplicationController
   end
 
   def get_path
-    if @word.update(word_params)
-      format.html { redirect_to @word, notice: 'Word was successfully updated.' }
-      format.json { render :show, status: :ok, location: @word }
-    else
-      format.html { render :edit }
-      format.json { render json: @word.errors, status: :unprocessable_entity }
-    end
+    @path = Word.find_path(params[:source], params[:target])
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_word
-      @word = Word.find(params[:id])
+      @word = Word.find_by_neo_id(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
