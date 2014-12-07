@@ -63,6 +63,20 @@ class WordsController < ApplicationController
 
   def get_path
     @path = Word.find_path(params[:source], params[:target])
+
+    respond_to do |format|
+      format.html { @path }
+      format.json { render json: @path.to_json, status: :ok }
+    end
+  end
+
+  def get_random_path
+    @path = Word.random_pair(params[:length])
+
+    respond_to do |format|
+      format.html { @path }
+      format.json { render json: @path.to_json, status: :ok }
+    end
   end
 
   private
@@ -74,6 +88,6 @@ class WordsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def word_params
       # params.require(:word).permit(:name)
-      params.permit(:name, :word, :target)
+      params.permit(:name, :word, :target, :length)
     end
 end

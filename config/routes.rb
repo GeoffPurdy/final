@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :words do
     collection do
       get 'get_path'
+      get 'get_random_path'
     end
   end
 
